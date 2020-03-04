@@ -1,5 +1,6 @@
-package com.simonblund.rest.webservices.incidentapi.model;
+package com.simonblund.rest.webservices.incidentapi.domain.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.Size;
@@ -11,6 +12,7 @@ import java.util.UUID;
 public class Incident {
 
     @Size(min = 2)
+    @ApiModelProperty(notes = "Should be the raw textmsg from IncidentCenter")
     private final String message;
     private UUID uuid;
     private Date time;

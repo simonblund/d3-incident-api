@@ -1,9 +1,8 @@
-package com.simonblund.rest.webservices.incidentapi.dao;
+package com.simonblund.rest.webservices.incidentapi.domain.dao;
 
 import com.simonblund.rest.webservices.incidentapi.exception.IncidentNotFoundException;
-import com.simonblund.rest.webservices.incidentapi.model.Incident;
+import com.simonblund.rest.webservices.incidentapi.domain.model.Incident;
 import com.simonblund.rest.webservices.incidentapi.service.IncidentService;
-import com.simonblund.rest.webservices.incidentapi.service.serviceImpl.IncidentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +13,7 @@ import java.util.UUID;
 @Component
 public class IncidentDaoService {
     private static List<Incident> incidents = new ArrayList<>();
+
     @Autowired
     private static IncidentService service;
 
@@ -23,22 +23,23 @@ public class IncidentDaoService {
         save(new Incident("2.6 Grundlarm - Automatalarm,STORKOGEN (2222),Ålandsvägen 23,010-MARIEHAMN"));
     }
 
-    public List<Incident> findAll(){
+    public List<Incident> getAll(){
         return incidents;
     }
 
     public UUID save(Incident incident){
-        //System.out.println(incident.getMessage());
-        incident.setUuid(service.uuid());
+        //TODO Remove this infolog
+        System.out.println("Incident created msg: "+incident.getMessage());
+        incident.setUuid(UUID.randomUUID());
         incidents.add(incident);
         return incident.getUuid();
     }
 
     public Incident findOne(UUID uuid){
-        Incident found = incidents.stream().filter(incident -> uuid.equals(incident.getUuid())).findAny().get();
-        if(found.getMessage().isEmpty()){
-            throw new IncidentNotFoundException("findOne by UUID failed");
+        Incident response = incidents.stream().filter(incident -> uuid.equals(incident.getUuid())).findAny().get();
+        if(response.getMessage().isEmpty()){
+            throw new IncidentNotFoundException("Nothing found");
         }
-        return found;
+        return response;
     }
 }

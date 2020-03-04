@@ -1,4 +1,4 @@
-package com.simonblund.rest.webservices.incidentapi.model;
+package com.simonblund.rest.webservices.incidentapi.domain.model;
 
 import lombok.Data;
 
