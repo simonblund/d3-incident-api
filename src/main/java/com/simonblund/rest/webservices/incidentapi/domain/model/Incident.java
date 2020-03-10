@@ -2,8 +2,10 @@ package com.simonblund.rest.webservices.incidentapi.domain.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.springframework.core.log.LogMessage;
 
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -24,6 +26,7 @@ public class Incident {
 
     private Enum type;
     private String details;
+    private ArrayList<LogMessage> logMessages;
 
 
     protected boolean canEqual(final Object other) {
