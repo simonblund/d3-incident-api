@@ -1,4 +1,4 @@
-package com.simonblund.rest.webservices.incidentapi.domain.model.entity;
+package com.simonblund.rest.webservices.incidentapi.model.entity;
 
 import lombok.Data;
 

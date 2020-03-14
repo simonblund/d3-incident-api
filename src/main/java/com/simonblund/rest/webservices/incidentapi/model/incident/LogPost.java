@@ -1,8 +1,15 @@
-package com.simonblund.rest.webservices.incidentapi.domain.model.entity;
+package com.simonblund.rest.webservices.incidentapi.model.incident;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class LogPost {
     private String message;
     private UUID uuid;

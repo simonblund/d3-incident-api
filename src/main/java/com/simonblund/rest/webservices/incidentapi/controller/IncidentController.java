@@ -1,8 +1,8 @@
 package com.simonblund.rest.webservices.incidentapi.controller;
 
-import com.simonblund.rest.webservices.incidentapi.domain.dao.IncidentDaoService;
-import com.simonblund.rest.webservices.incidentapi.domain.model.Incident;
-import com.simonblund.rest.webservices.incidentapi.domain.model.IncidentMsg;
+import com.simonblund.rest.webservices.incidentapi.domain.dao.IncidentDaoVolatileImpl;
+import com.simonblund.rest.webservices.incidentapi.model.incident.Incident;
+import com.simonblund.rest.webservices.incidentapi.model.incident.IncidentMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 public class IncidentController {
     @Autowired
-    private IncidentDaoService service;
+    private IncidentDaoVolatileImpl service;
 
     @GetMapping(path = "/incidents")
     public List<Incident> getAll(){
@@ -27,7 +27,7 @@ public class IncidentController {
     public ResponseEntity<Object> saveIncident(@RequestBody IncidentMsg incidentMsg){
 
         Incident inc = mapIncidentMessage(incidentMsg);
-        UUID savedIncident = service.save(inc);
+        UUID savedIncident = service.create(inc);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{savedIncident}")
@@ -37,7 +37,7 @@ public class IncidentController {
     }
 
     @GetMapping(path="/incidents/{uuid}")
-    public Incident getIncindet(@PathVariable UUID uuid){
+    public Incident getIncident(@PathVariable UUID uuid){
         return service.findOne(uuid);
     }
 
@@ -52,7 +52,20 @@ public class IncidentController {
                 .buildAndExpand(incident)
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
 
+    @PostMapping(path="/incidents/{uuid}/logPost")
+    public  ResponseEntity<Incident> createLogPost(@PathVariable UUID uuid){
+        // TODO check out swagger.
+        Incident incident = service.findOne(uuid);
+        UUID incidentUuid = incident.getUuid();
+        
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{incidentUuid}")
+                .buildAndExpand(incident)
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     protected Incident mapIncidentMessage(IncidentMsg incidentMsg){

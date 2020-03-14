@@ -1,6 +1,6 @@
-package com.simonblund.rest.webservices.incidentapi.domain.model;
+package com.simonblund.rest.webservices.incidentapi.model.incident;
 
-import com.simonblund.rest.webservices.incidentapi.domain.model.entity.PhoneNumber;
+import com.simonblund.rest.webservices.incidentapi.model.entity.PhoneNumber;
 import lombok.Data;
 
 import java.time.LocalDateTime;
